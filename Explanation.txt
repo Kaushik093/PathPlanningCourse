@@ -1,0 +1,4 @@
+Explanation for BreadthFirstSearch :
+
+pos_str holds '[1,2]' initially
+
