@@ -64,16 +64,13 @@ class BreadthFirstSearch:
         # Determine next move to explore.
         sorted_not_explored = sorted(
             self.not_explored,
-            key=self.not_explored.get,
+            key=self.not_explored.get,          # Sort by value of path depth
             reverse=False)
 
-        # print(len(sorted_not_explored))
-
-
+       
         # Determine the pos and depth of next move.
-        self.pos_str = sorted_not_explored[1]
+        self.pos_str = sorted_not_explored[0]
 
-        # print("String:",self.pos_str)
 
         self.pos = self.string_to_array(self.pos_str)
         # print("Array :",self.pos)
@@ -82,9 +79,6 @@ class BreadthFirstSearch:
 
         return True
 
-    # END - Student Section
-
-    # Helper Functions
 
     def generate_potential_moves(self, pos):
         u = np.array([-1, 0])
@@ -95,7 +89,7 @@ class BreadthFirstSearch:
         potential_moves = [pos + u, pos + d, pos + l, pos + r]
 
         # Students, uncomment the line below,  what happens?
-        #potential_moves += [pos + u+r, pos + u+l, pos + d+r, pos + d+l]
+        potential_moves += [pos + u+r, pos + u+l, pos + d+r, pos + d+l]
         return potential_moves
 
     def valid_move(self, move):
@@ -126,35 +120,39 @@ while True:
         bfs.explore_next_move()
 
 
-print('')
+# print('')
 print('Explored Path')
-print('-------------')
+# print('-------------')
+# print("PATH")
 print(path)
+# print('')
+# print('Fully explored count ' + str(np.count_nonzero(path)))
+
+
+def find_best_path(pos):
+    print("pos:",pos)
+    best_path[pos[0], pos[1]] = 1
+    print("best path: ",best_path)
+    h_pos = path[pos[0], pos[1]]
+    print("h_pos: ",h_pos)
+    if h_pos == 1:
+        return 1
+
+    potential_moves = bfs.generate_potential_moves(pos)
+    for move in potential_moves:
+        if not bfs.valid_move(move):
+            continue
+        h_move = path[move[0], move[1]]
+        if h_move == (h_pos - 1):
+            return find_best_path(move) + 1
+
+
+goal_count = find_best_path(goal)
+best_path[start[0], start[1]] = 99
 print('')
-print('Fully explored count ' + str(np.count_nonzero(path)))
-
-
-# def find_best_path(pos):
-#     best_path[pos[0], pos[1]] = 1
-#     h_pos = path[pos[0], pos[1]]
-#     if h_pos == 1:
-#         return 1
-
-#     potential_moves = bfs.generate_potential_moves(pos)
-#     for move in potential_moves:
-#         if not bfs.valid_move(move):
-#             continue
-#         h_move = path[move[0], move[1]]
-#         if h_move == (h_pos - 1):
-#             return find_best_path(move) + 1
-
-
-# goal_count = find_best_path(goal)
-# best_path[start[0], start[1]] = 99
-# print('')
-# print('Best Path To Goal')
-# print('-----------------')
-# print(best_path)
-# print('')
-# print('Moves to Goal: ' + str(goal_count))
-# print('')
+print('Best Path To Goal')
+print('-----------------')
+print(best_path)
+print('')
+print('Moves to Goal: ' + str(goal_count))
+print('')
