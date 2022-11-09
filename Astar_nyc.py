@@ -33,7 +33,7 @@ class Astar:
         diag_r_upper=np.array([-1,1])
         diag_l_upper=np.array([-1,-1])
 
-        potential_moves = [pos + u, pos + d, pos + l, pos + r, pos+diag_l_lower, pos + diag_l_upper, pos + diag_r_lower, pos +diag_r_upper]
+        potential_moves = [pos + u, pos + d, pos + l, pos + r, pos + diag_l_lower, pos + diag_l_upper, pos + diag_r_lower, pos + diag_r_upper]
 
         # print("Potential moves :",potential_moves)
         # print(potential_moves)
