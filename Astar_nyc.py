@@ -1,13 +1,13 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import colors
-start = np.array([672,  348])
-goal = np.array([600, 417])
+start = np.array([200,176])
+goal = np.array([211,169])
 grid = np.load('new_york.npy')
 
 path = np.zeros([len(grid), len(grid[0])], dtype=float)
 
-print("VAL :",grid[600,417,0])
+
 
 node_count = 0
 step_count = 0
@@ -41,17 +41,16 @@ class Astar:
         return potential_moves
 
     def valid_moves(self, potential_moves):
-
+        
         # print("Potential moves: ", potential_moves)
 
         # print("Valid moves check")
         # Check if move is within grid
         valid_moves = []
         for move in potential_moves:
-            if move[0] >= 0 and move[0] < len(self.grid) and move[1] >= 0 and move[1] < len(self.grid[0]) and self.grid[move[0], move[1], 0] >= 0.1 :
+            if move[0] >= 0 and move[0] < len(self.grid) and move[1] >= 0 and move[1] < len(self.grid[0]) and self.grid[move[0], move[1], 0] > 0.3 :
                 valid_moves.append(move)
-
-        
+       
     
     # and self.grid[move[0], move[1], 0] >= 0.2
               
@@ -59,7 +58,7 @@ class Astar:
 
     def next_move(self, valid_moves):
 
-        # print("Valid moves: ", valid_moves)
+        print("Valid moves: ", valid_moves)
 
         heuristic=[]
 
@@ -71,11 +70,14 @@ class Astar:
                         2 + (move[1]-self.goal[1])**2))
     
 
-        # print("Heuristic :", heuristic)
-        # print("Lowest heuristic :", min(heuristic))
+        print("Heuristic :", heuristic)
+        print("Lowest heuristic :", min(heuristic))
         
         minpos = heuristic.index(min(heuristic))
+        print("Minpos :", minpos)
+        self.explored_node.append(self.pos)
         print("Next move: ", valid_moves[minpos])
+        
         self.pos = valid_moves[minpos]
 
 obj = Astar(start, goal, grid, path)
@@ -99,4 +101,3 @@ while True :
 plt.imshow(obj.path,cmap='jet',alpha=0.75)
 plt.tight_layout()
 plt.show()
-
