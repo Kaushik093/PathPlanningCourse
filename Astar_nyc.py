@@ -1,13 +1,13 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import colors
-start = np.array([200,176])
-goal = np.array([211,169])
+start = np.array([871,176])
+goal = np.array([600,283])
 grid = np.load('new_york.npy')
 
 path = np.zeros([len(grid), len(grid[0])], dtype=float)
 
-
+print("VAL :",grid[600,417,0])
 
 node_count = 0
 step_count = 0
@@ -75,9 +75,7 @@ class Astar:
         
         minpos = heuristic.index(min(heuristic))
         print("Minpos :", minpos)
-        self.explored_node.append(self.pos)
         print("Next move: ", valid_moves[minpos])
-        
         self.pos = valid_moves[minpos]
 
 obj = Astar(start, goal, grid, path)
